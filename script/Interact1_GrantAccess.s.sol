@@ -35,7 +35,7 @@ contract Interact1_GrantAccess is Script {
         
         accessToken.grantAccess(READER, BOOK_ID, DURATION);
         
-        console.log("\n✅ Access granted successfully!");
+        console.log("\nAccess granted successfully!");
         console.log("Reader can now access the book for 30 days");
 
         vm.stopBroadcast();

@@ -27,10 +27,10 @@ contract Interact3_VerifyAccess is Script {
         
         bool hasAccess = accessToken.verifyAccess(READER, BOOK_ID);
         
-        console.log("\n📊 Verification Result:", hasAccess);
+        console.log("\nVerification Result:", hasAccess);
         
         if (hasAccess) {
-            console.log("✅ Reader has ACTIVE access to this book");
+            console.log("Reader has ACTIVE access to this book");
             
             // Get access details
             (uint256 grantedAt, uint256 expiresAt, bool isActive) = 
@@ -41,7 +41,7 @@ contract Interact3_VerifyAccess is Script {
             console.log("- Expires at:", expiresAt);
             console.log("- Is Active:", isActive);
         } else {
-            console.log("❌ Reader does NOT have access to this book");
+            console.log("Reader does NOT have access to this book");
         }
     }
 }

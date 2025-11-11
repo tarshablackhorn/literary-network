@@ -31,7 +31,7 @@ contract Interact2_RecordRead is Script {
         
         proofOfRead.recordRead(BOOK_ID, IS_PUBLIC);
         
-        console.log("\n✅ Proof of read recorded successfully!");
+        console.log("\nProof of read recorded successfully!");
         console.log("This reading activity is now permanently on-chain");
 
         vm.stopBroadcast();

@@ -24,7 +24,7 @@ contract Interact4_GetHistory is Script {
         // Get reading history
         ProofOfRead.ReadRecord[] memory history = proofOfRead.getReadingHistory(deployer);
         
-        console.log("\n📚 Total Books Read:", history.length);
+        console.log("\nTotal Books Read:", history.length);
         
         if (history.length > 0) {
             console.log("\nReading History:");
@@ -39,12 +39,12 @@ contract Interact4_GetHistory is Script {
             (uint256 totalReads, uint256 publicReads, uint256 privateReads) = 
                 proofOfRead.getReaderStats(deployer);
             
-            console.log("\n📊 Reader Statistics:");
+            console.log("\nReader Statistics:");
             console.log("- Total Reads:", totalReads);
             console.log("- Public Reads:", publicReads);
             console.log("- Private Reads:", privateReads);
         } else {
-            console.log("\n📭 No reading history found for this reader");
+            console.log("\nNo reading history found for this reader");
         }
     }
 }

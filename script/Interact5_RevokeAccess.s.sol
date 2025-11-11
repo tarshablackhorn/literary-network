@@ -36,14 +36,14 @@ contract Interact5_RevokeAccess is Script {
         // Revoke access
         accessToken.revokeAccess(READER, BOOK_ID);
         
-        console.log("\n✅ Access revoked successfully!");
+        console.log("\nAccess revoked successfully!");
         
         // Verify access is now revoked
         bool hasAccessNow = accessToken.verifyAccess(READER, BOOK_ID);
         console.log("Has access after revocation:", hasAccessNow);
         
         if (!hasAccessNow) {
-            console.log("\n🔒 Reader can no longer access this book");
+            console.log("\nReader can no longer access this book");
         }
 
         vm.stopBroadcast();
