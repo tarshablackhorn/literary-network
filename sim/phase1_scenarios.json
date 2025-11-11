@@ -1,0 +1,39 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "name": "Grant Access Token",
+      "description": "Grant access token to a reader",
+      "contract": "AccessToken",
+      "method": "grantAccess",
+      "params": {
+        "reader": "0x...",
+        "bookId": "book:123",
+        "duration": 2592000
+      }
+    },
+    {
+      "id": "scenario-2",
+      "name": "Record Proof of Read",
+      "description": "Record that a reader has completed reading",
+      "contract": "ProofOfRead",
+      "method": "recordRead",
+      "params": {
+        "reader": "0x...",
+        "bookId": "book:123",
+        "timestamp": "auto"
+      }
+    },
+    {
+      "id": "scenario-3",
+      "name": "Verify Access",
+      "description": "Verify reader has active access token",
+      "contract": "AccessToken",
+      "method": "verifyAccess",
+      "params": {
+        "reader": "0x...",
+        "bookId": "book:123"
+      }
+    }
+  ]
+}
