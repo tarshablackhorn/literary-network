@@ -13,7 +13,7 @@ contract Interact1_GrantAccess is Script {
     address constant ACCESS_TOKEN = 0x07D9a8173353673412aDb9a44d661269Dce4B795;
     
     // Test reader address (can be any address)
-    address constant READER = 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb1;
+    address constant READER = 0x742d35cC6634c0532925A3b844bc9E7595F0beB1;
     
     // Book ID
     string constant BOOK_ID = "book:the-great-gatsby";
