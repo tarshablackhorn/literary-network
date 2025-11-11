@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# Foundry
+cache/
+out/
+broadcast/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
