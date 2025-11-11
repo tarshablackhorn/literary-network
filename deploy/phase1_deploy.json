@@ -1,22 +1,22 @@
 {
   "phase": "Phase 1",
   "network": "Base Sepolia",
-  "deployment_date": "YYYY-MM-DD",
-  "deployer_address": "0x...",
+  "deployment_date": "2025-11-11",
+  "deployer_address": "0x8281c89d998cFb355535dC702CDBE8FC831c42a5",
   "contracts": {
     "AccessToken": {
-      "address": "0x...",
-      "deployment_tx": "0x...",
-      "block_number": 0,
-      "verification_status": "pending",
-      "basescan_url": "https://sepolia.basescan.org/address/0x..."
+      "address": "0x07D9a8173353673412aDb9a44d661269Dce4B795",
+      "deployment_tx": "0xd17eb66672e0552f4e0ea685822cb74ae2305829cc895bcc24fabb0f297a9f0b",
+      "block_number": 33554897,
+      "verification_status": "deployed",
+      "basescan_url": "https://sepolia.basescan.org/address/0x07D9a8173353673412aDb9a44d661269Dce4B795"
     },
     "ProofOfRead": {
-      "address": "0x...",
-      "deployment_tx": "0x...",
-      "block_number": 0,
-      "verification_status": "pending",
-      "basescan_url": "https://sepolia.basescan.org/address/0x..."
+      "address": "0xC413ffFFa2acE6Ab1DCd94eB2D71307cCF859fA4",
+      "deployment_tx": "0xb2cda7c034b4943a3b72df51c1e2df4dc50aa00ce3815a41f11d52f70ffc6dbc",
+      "block_number": 33554897,
+      "verification_status": "deployed",
+      "basescan_url": "https://sepolia.basescan.org/address/0xC413ffFFa2acE6Ab1DCd94eB2D71307cCF859fA4"
     }
   },
   "interactions": [
@@ -72,9 +72,9 @@
     }
   ],
   "gas_used": {
-    "total_eth": "0.0",
-    "deployment": "0.0",
+    "total_eth": "0.001513487476521",
+    "deployment": "0.001513487476521",
     "interactions": "0.0"
   },
-  "notes": "Add any additional notes about the deployment here"
+  "notes": "Successfully deployed Phase 1 contracts to Base Sepolia. Both contracts deployed in block 33554897. Ready for on-chain interactions."
 }
