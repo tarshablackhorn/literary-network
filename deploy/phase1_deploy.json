@@ -1,0 +1,80 @@
+{
+  "phase": "Phase 1",
+  "network": "Base Sepolia",
+  "deployment_date": "YYYY-MM-DD",
+  "deployer_address": "0x...",
+  "contracts": {
+    "AccessToken": {
+      "address": "0x...",
+      "deployment_tx": "0x...",
+      "block_number": 0,
+      "verification_status": "pending",
+      "basescan_url": "https://sepolia.basescan.org/address/0x..."
+    },
+    "ProofOfRead": {
+      "address": "0x...",
+      "deployment_tx": "0x...",
+      "block_number": 0,
+      "verification_status": "pending",
+      "basescan_url": "https://sepolia.basescan.org/address/0x..."
+    }
+  },
+  "interactions": [
+    {
+      "id": 1,
+      "description": "Grant access token to reader",
+      "contract": "AccessToken",
+      "method": "grantAccess",
+      "tx_hash": "0x...",
+      "block_number": 0,
+      "timestamp": "YYYY-MM-DD HH:MM:SS",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+    },
+    {
+      "id": 2,
+      "description": "Record proof of read",
+      "contract": "ProofOfRead",
+      "method": "recordRead",
+      "tx_hash": "0x...",
+      "block_number": 0,
+      "timestamp": "YYYY-MM-DD HH:MM:SS",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+    },
+    {
+      "id": 3,
+      "description": "Verify access token",
+      "contract": "AccessToken",
+      "method": "verifyAccess",
+      "tx_hash": "0x...",
+      "block_number": 0,
+      "timestamp": "YYYY-MM-DD HH:MM:SS",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+    },
+    {
+      "id": 4,
+      "description": "Get reading history",
+      "contract": "ProofOfRead",
+      "method": "getReadingHistory",
+      "tx_hash": "0x...",
+      "block_number": 0,
+      "timestamp": "YYYY-MM-DD HH:MM:SS",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+    },
+    {
+      "id": 5,
+      "description": "Revoke access token",
+      "contract": "AccessToken",
+      "method": "revokeAccess",
+      "tx_hash": "0x...",
+      "block_number": 0,
+      "timestamp": "YYYY-MM-DD HH:MM:SS",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+    }
+  ],
+  "gas_used": {
+    "total_eth": "0.0",
+    "deployment": "0.0",
+    "interactions": "0.0"
+  },
+  "notes": "Add any additional notes about the deployment here"
+}

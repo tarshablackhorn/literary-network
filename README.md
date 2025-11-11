@@ -99,7 +99,42 @@ literary-network/
 
 Documentation for each phase is located in the `docs/` directory. Start with [Phase 0 Glossary](docs/phase-0/literary-network-glossary.md) to understand all core terms.
 
+## Phase 1 Proof & Verification
+
+### Deployed Contracts (Base Sepolia)
+
+- **AccessToken**: [View on BaseScan](https://sepolia.basescan.org/address/0x...)
+- **ProofOfRead**: [View on BaseScan](https://sepolia.basescan.org/address/0x...)
+
+### Documentation & Proof
+
+- 📋 [Deployment Artifacts](deploy/phase1_deploy.json) - Contract addresses, transaction hashes, and deployment details
+- ✅ [Verification Checklist](docs/phase1_verification.md) - Complete testing checklist with all scenarios
+- 📊 [Test Report](docs/phase1_test_report.md) - Detailed test results and gas analysis
+- 📖 [Access Token Docs](docs/access_token.md) - Contract interface and usage
+- 📖 [Proof of Read Docs](docs/proof_of_read.md) - Reading history tracking
+
+### On-Chain Interactions
+
+Minimum 5 verified transactions on Base Sepolia:
+
+1. **Grant Access**: [View Transaction](https://sepolia.basescan.org/tx/0x...)
+2. **Record Read**: [View Transaction](https://sepolia.basescan.org/tx/0x...)
+3. **Verify Access**: [View Transaction](https://sepolia.basescan.org/tx/0x...)
+4. **Get Reading History**: [View Transaction](https://sepolia.basescan.org/tx/0x...)
+5. **Revoke Access**: [View Transaction](https://sepolia.basescan.org/tx/0x...)
+
+### Logs & Artifacts
+
+- GitHub Actions deployment logs: `logs/deploy.log`
+- GitHub Actions interaction logs: `logs/calls.log`
+- Screenshots: `screenshots/`
+
+> **Note**: Update the links above with actual contract addresses and transaction hashes after deployment.
+
+---
+
 ## Status
 
-**Current Phase**: PHASE 0 - Core Definitions  
+**Current Phase**: PHASE 1 - Core Reader MVP (Deployed to Base Sepolia)  
 **Last Updated**: 2025-11-11
