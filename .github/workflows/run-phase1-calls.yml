@@ -63,11 +63,21 @@ jobs:
         run: chmod +x scripts/run_phase1_calls.sh
 
       - name: Run Phase 1 scenarios
-        if: hashFiles('scripts/run_phase1_calls.sh') != '' && secrets.PRIVATE_KEY != '' && secrets.RPC_URL != '' && secrets.CONTRACT_ADDRESS != ''
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          RPC_URL: ${{ secrets.RPC_URL }}
-          CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
-        run: |
-          set -euxo pipefail
-          ./scripts/run_phase1_calls.sh
+  # only gate on file existence here (secrets context not allowed in if)
+  if: hashFiles('scripts/run_phase1_calls.sh') != ''
+  env:
+    PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    RPC_URL: ${{ secrets.RPC_URL }}
+    CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+  run: |
+    set -euo pipefail
+    # Fail clearly if any secret is missing (doesn't print the values)
+    : "${PRIVATE_KEY:?Missing PRIVATE_KEY secret}"
+    : "${RPC_URL:?Missing RPC_URL secret}"
+    : "${CONTRACT_ADDRESS:?Missing CONTRACT_ADDRESS secret}"
+    chmod +x scripts/run_phase1_calls.sh
+    ./scripts/run_phase1_calls.sh
+
+- name: Make scenario script executable
+  if: hashFiles('scripts/run_phase1_calls.sh') != ''
+  run: chmod +x scripts/run_phase1_calls.sh
