@@ -24,24 +24,50 @@ jobs:
           forge --version
           cast --version
 
-      # If forge-std isn't checked in, this installs it in CI
-      - name: Ensure forge-std
+      # If forge-std isn't checked in, this installs it in CI (with debug output)
+      - name: Ensure forge-std (install + debug)
         run: |
           set -euxo pipefail
+          echo "Working dir: $(pwd)"
+          git rev-parse --abbrev-ref HEAD || true
+          ls -la
+          # Install if missing (do not use --no-commit so remappings.txt can be written)
           if [ ! -d lib/forge-std ]; then
             echo "forge-std not found in repo; installing…"
-            forge install --no-commit foundry-rs/forge-std
+            forge install foundry-rs/forge-std
           else
             echo "forge-std present in repo"
           fi
-          ls -la lib || true
+          echo "foundry.toml content:"
+          cat foundry.toml || true
+          echo "remappings.txt (if present):"
+          cat remappings.txt || true
+          echo "forge remappings output:"
+          forge remappings || true
+          echo "List lib/forge-std/src:"
+          ls -la lib/forge-std/src || true
+          # sanity check the Script.sol file exists
           test -f lib/forge-std/src/Script.sol
 
       - name: Build contracts
-        run: forge build --sizes
+        run: forge build --sizes -vvv
 
       - name: Run tests
         run: forge test -vvv
+
+      - name: Dump workspace on failure
+        if: failure()
+        run: |
+          set -euxo pipefail
+          echo "=== Workspace ==="
+          pwd
+          ls -la
+          echo "=== lib dir ==="
+          ls -la lib || true
+          echo "=== remappings.txt ==="
+          cat remappings.txt || true
+          echo "=== foundry.toml ==="
+          cat foundry.toml || true
 
       # --- Optional: only if your script exists and you set secrets ---
       - name: Make scenario script executable
