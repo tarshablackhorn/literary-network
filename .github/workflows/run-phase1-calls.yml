@@ -3,31 +3,71 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (submodules just in case)
+      - name: Checkout (with submodules, just in case)
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: Show repo layout (debug)
+        run: |
+          set -euxo pipefail
+          pwd
+          ls -la
+          echo "---- list top-level files ----"
+          ls -1
+          echo "---- check foundry.toml exists ----"
+          test -f foundry.toml
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: stable
 
+      - name: Verify Foundry install
+        run: |
+          set -euxo pipefail
+          which forge
+          forge --version
+          cast --version
+
+      # If lib/forge-std is NOT checked in (or you see "file not found: forge-std"),
+      # uncomment the next step to install dependencies at CI time:
+      # - name: Install Foundry deps (only if needed)
+      #   run: |
+      #     set -euxo pipefail
+      #     forge install --no-commit foundry-rs/forge-std
+
       - name: Build contracts
-        run: forge build --sizes
+        run: |
+          set -euxo pipefail
+          forge build --sizes
 
       - name: Run tests
-        run: forge test -vvv
+        run: |
+          set -euxo pipefail
+          forge test -vvv
 
-      # --- only if you want to run your Phase 1 script in CI ---
+      # ---------- OPTIONAL: only if you actually want to run your script ----------
+      - name: Show scripts dir (debug)
+        run: |
+          set -euxo pipefail
+          ls -la scripts || true
+          if [ -f scripts/run_phase1_calls.sh ]; then
+            echo "Found scripts/run_phase1_calls.sh"
+          else
+            echo "No scenario script present; skipping next steps."
+          fi
+
       - name: Make scenario script executable
         if: hashFiles('scripts/run_phase1_calls.sh') != ''
         run: chmod +x scripts/run_phase1_calls.sh
 
       - name: Run Phase 1 scenarios
-        if: hashFiles('scripts/run_phase1_calls.sh') != ''
+        if: hashFiles('scripts/run_phase1_calls.sh') != '' && secrets.PRIVATE_KEY != '' && secrets.RPC_URL != '' && secrets.CONTRACT_ADDRESS != ''
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           RPC_URL: ${{ secrets.RPC_URL }}
           CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
-        run: ./scripts/run_phase1_calls.sh
+        run: |
+          set -euxo pipefail
+          ./scripts/run_phase1_calls.sh
