@@ -1,9 +1,15 @@
+name: Run Phase 1 Calls
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # every 6 hours (UTC)
+
 jobs:
   run-scenarios:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (with submodules, just in case)
+      - name: Checkout (with submodules)
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -13,9 +19,6 @@ jobs:
           set -euxo pipefail
           pwd
           ls -la
-          echo "---- list top-level files ----"
-          ls -1
-          echo "---- check foundry.toml exists ----"
           test -f foundry.toml
 
       - name: Install Foundry
@@ -26,16 +29,16 @@ jobs:
       - name: Verify Foundry install
         run: |
           set -euxo pipefail
-          which forge
           forge --version
           cast --version
 
-      # If lib/forge-std is NOT checked in (or you see "file not found: forge-std"),
-      # uncomment the next step to install dependencies at CI time:
-      # - name: Install Foundry deps (only if needed)
-      #   run: |
-      #     set -euxo pipefail
-      #     forge install --no-commit foundry-rs/forge-std
+      # If forge-std isn't checked in, this will fetch it
+      - name: Ensure forge-std (if not checked in)
+        run: |
+          set -euxo pipefail
+          if [ ! -d lib/forge-std ]; then
+            forge install --no-commit foundry-rs/forge-std
+          fi
 
       - name: Build contracts
         run: |
@@ -47,37 +50,21 @@ jobs:
           set -euxo pipefail
           forge test -vvv
 
-      # ---------- OPTIONAL: only if you actually want to run your script ----------
-      - name: Show scripts dir (debug)
-        run: |
-          set -euxo pipefail
-          ls -la scripts || true
-          if [ -f scripts/run_phase1_calls.sh ]; then
-            echo "Found scripts/run_phase1_calls.sh"
-          else
-            echo "No scenario script present; skipping next steps."
-          fi
-
+      # ----- Optional scenario script -----
       - name: Make scenario script executable
-        if: hashFiles('scripts/run_phase1_calls.sh') != ''
+        if: ${{ hashFiles('scripts/run_phase1_calls.sh') != '' }}
         run: chmod +x scripts/run_phase1_calls.sh
 
       - name: Run Phase 1 scenarios
-  # only gate on file existence here (secrets context not allowed in if)
-  if: hashFiles('scripts/run_phase1_calls.sh') != ''
-  env:
-    PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-    RPC_URL: ${{ secrets.RPC_URL }}
-    CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
-  run: |
-    set -euo pipefail
-    # Fail clearly if any secret is missing (doesn't print the values)
-    : "${PRIVATE_KEY:?Missing PRIVATE_KEY secret}"
-    : "${RPC_URL:?Missing RPC_URL secret}"
-    : "${CONTRACT_ADDRESS:?Missing CONTRACT_ADDRESS secret}"
-    chmod +x scripts/run_phase1_calls.sh
-    ./scripts/run_phase1_calls.sh
-
-- name: Make scenario script executable
-  if: hashFiles('scripts/run_phase1_calls.sh') != ''
-  run: chmod +x scripts/run_phase1_calls.sh
+        if: ${{ hashFiles('scripts/run_phase1_calls.sh') != '' }}
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          RPC_URL: ${{ secrets.RPC_URL }}
+          CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+        run: |
+          set -euo pipefail
+          # explicit secret checks (no secrets in if:)
+          if [ -z "${PRIVATE_KEY:-}" ]; then echo "Missing PRIVATE_KEY secret"; exit 1; fi
+          if [ -z "${RPC_URL:-}" ]; then echo "Missing RPC_URL secret"; exit 1; fi
+          if [ -z "${CONTRACT_ADDRESS:-}" ]; then echo "Missing CONTRACT_ADDRESS secret"; exit 1; fi
+          ./scripts/run_phase1_calls.sh
