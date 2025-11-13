@@ -25,7 +25,7 @@ jobs:
           fi
           # Make foundry binaries available in this step and subsequent steps
           export PATH="$HOME/.foundry/bin:$PATH"
-          echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+          echo "$HOME/.foundry/bin" >> "$GITHUB_PATH"
           # Upgrade toolchain (use explicit path if available)
           if [ -x "$HOME/.foundry/bin/foundryup" ]; then
             "$HOME/.foundry/bin/foundryup" || true
@@ -44,7 +44,7 @@ jobs:
           ls -la
           # Install if missing (do not use --no-commit so remappings.txt can be written)
           if [ ! -d lib/forge-std ]; then
-            echo "forge-std not found in repo; installing…"
+            echo "forge-std not found in repo; installing..."
             forge install foundry-rs/forge-std
           else
             echo "forge-std present in repo"
