@@ -19,10 +19,13 @@ jobs:
         run: |
           set -euxo pipefail
           curl -L https://foundry.paradigm.xyz | bash
+          # make foundry binaries available NOW (this step) and LATER (next steps)
+          export PATH="$HOME/.foundry/bin:$PATH"
           echo "$HOME/.foundry/bin" >> $GITHUB_PATH
-          $HOME/.foundry/bin/foundryup
+          foundryup
           forge --version
           cast --version
+
 
       # If forge-std isn't checked in, this installs it in CI (with debug output)
       - name: Ensure forge-std (install + debug)
