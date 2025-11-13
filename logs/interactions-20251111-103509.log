@@ -1,0 +1,14 @@
+======================================
+Phase 1 - Running All Interactions
+======================================
+
+📝 Interaction 1: Grant Access to Reader
+--------------------------------------
+Compiling 1 files with Solc 0.8.19
+Solc 0.8.19 finished in 106.02ms
+Error: Compiler run failed:
+Error (8936): Invalid character in string. If you are trying to use Unicode characters, use a unicode"..." string literal.
+  --> script/Interact1_GrantAccess.s.sol:38:21:
+   |
+38 |         console.log("\n✅ Access granted successfully!");
+   |                     ^^^^

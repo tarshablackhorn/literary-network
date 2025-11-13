@@ -25,56 +25,56 @@
       "description": "Grant access token to reader",
       "contract": "AccessToken",
       "method": "grantAccess",
-      "tx_hash": "0x...",
-      "block_number": 0,
-      "timestamp": "YYYY-MM-DD HH:MM:SS",
-      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+      "tx_hash": "0x87356bddd490d7ddb921aa02f16e21458e5978929f19c5cb04a3aaa2380101d5",
+      "block_number": 33555357,
+      "timestamp": "2025-11-11 04:36:42",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x87356bddd490d7ddb921aa02f16e21458e5978929f19c5cb04a3aaa2380101d5"
     },
     {
       "id": 2,
       "description": "Record proof of read",
       "contract": "ProofOfRead",
       "method": "recordRead",
-      "tx_hash": "0x...",
-      "block_number": 0,
-      "timestamp": "YYYY-MM-DD HH:MM:SS",
-      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+      "tx_hash": "0x1685514e7e60455e2ad60ef326897763bef731437bbb63f1958b3283c4c585a1",
+      "block_number": 33555362,
+      "timestamp": "2025-11-11 04:36:52",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x1685514e7e60455e2ad60ef326897763bef731437bbb63f1958b3283c4c585a1"
     },
     {
       "id": 3,
-      "description": "Verify access token",
+      "description": "Verify access token (read-only)",
       "contract": "AccessToken",
       "method": "verifyAccess",
-      "tx_hash": "0x...",
-      "block_number": 0,
-      "timestamp": "YYYY-MM-DD HH:MM:SS",
-      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+      "tx_hash": "N/A (read-only call)",
+      "block_number": 33555362,
+      "timestamp": "2025-11-11 04:36:57",
+      "basescan_url": "N/A"
     },
     {
       "id": 4,
-      "description": "Get reading history",
+      "description": "Get reading history (read-only)",
       "contract": "ProofOfRead",
       "method": "getReadingHistory",
-      "tx_hash": "0x...",
-      "block_number": 0,
-      "timestamp": "YYYY-MM-DD HH:MM:SS",
-      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+      "tx_hash": "N/A (read-only call)",
+      "block_number": 33555362,
+      "timestamp": "2025-11-11 04:37:02",
+      "basescan_url": "N/A"
     },
     {
       "id": 5,
       "description": "Revoke access token",
       "contract": "AccessToken",
       "method": "revokeAccess",
-      "tx_hash": "0x...",
-      "block_number": 0,
-      "timestamp": "YYYY-MM-DD HH:MM:SS",
-      "basescan_url": "https://sepolia.basescan.org/tx/0x..."
+      "tx_hash": "0x26c76ceecdd4853d8edcb4f35f43f922731149dc7421919833de9d5b18a4f9d4",
+      "block_number": 33555377,
+      "timestamp": "2025-11-11 04:37:22",
+      "basescan_url": "https://sepolia.basescan.org/tx/0x26c76ceecdd4853d8edcb4f35f43f922731149dc7421919833de9d5b18a4f9d4"
     }
   ],
   "gas_used": {
-    "total_eth": "0.001513487476521",
+    "total_eth": "0.001843480",
     "deployment": "0.001513487476521",
-    "interactions": "0.0"
+    "interactions": "0.000329992465792"
   },
   "notes": "Successfully deployed Phase 1 contracts to Base Sepolia. Both contracts deployed in block 33554897. Ready for on-chain interactions."
 }
