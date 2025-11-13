@@ -13,29 +13,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # (optional) quick visibility
-      - name: Show repo layout
+      - name: Show repo layout (debug)
         run: |
+          set -euxo pipefail
           pwd
           ls -la
+          test -f foundry.toml
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: stable
 
+      - name: Verify Foundry install (debug)
+        run: |
+          set -euxo pipefail
+          which forge
+          forge --version
+          cast --version
+
       - name: Build contracts
-        run: forge build --sizes
+        run: |
+          set -euxo pipefail
+          forge build --sizes
 
       - name: Run tests
-        run: forge test -vvv
-
-      - name: Ensure script is executable
-        run: chmod +x scripts/run_phase1_calls.sh
-
-      - name: Run Phase 1 scenarios
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          RPC_URL: ${{ secrets.RPC_URL }}
-          CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
-        run: ./scripts/run_phase1_calls.sh
+        run: |
+          set -euxo pipefail
+          forge test -vvv
