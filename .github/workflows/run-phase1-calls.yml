@@ -8,22 +8,34 @@ on:
 jobs:
   run-scenarios:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # (optional) quick visibility
+      - name: Show repo layout
+        run: |
+          pwd
+          ls -la
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
         with:
-          node-version: '18'
-      
-      - name: Install dependencies
-        run: npm install
-      
+          version: stable
+
+      - name: Build contracts
+        run: forge build --sizes
+
+      - name: Run tests
+        run: forge test -vvv
+
+      - name: Ensure script is executable
+        run: chmod +x scripts/run_phase1_calls.sh
+
       - name: Run Phase 1 scenarios
-        run: ./scripts/run_phase1_calls.sh
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           RPC_URL: ${{ secrets.RPC_URL }}
           CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+        run: ./scripts/run_phase1_calls.sh
