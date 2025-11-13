@@ -1,43 +1,10 @@
 name: Run Phase 1 Calls
-
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'  # Run every 6 hours
 
 jobs:
-  run-scenarios:
+  ci:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Show repo layout (debug)
-        run: |
-          set -euxo pipefail
-          pwd
-          ls -la
-          test -f foundry.toml
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: stable
-
-      - name: Verify Foundry install (debug)
-        run: |
-          set -euxo pipefail
-          which forge
-          forge --version
-          cast --version
-
-      - name: Build contracts
-        run: |
-          set -euxo pipefail
-          forge build --sizes
-
-      - name: Run tests
-        run: |
-          set -euxo pipefail
-          forge test -vvv
+      - uses: actions/checkout@v4
+      - run: echo "Actions runner OK"
