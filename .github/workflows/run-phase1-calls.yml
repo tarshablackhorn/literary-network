@@ -15,8 +15,8 @@ jobs:
         run: echo "CI v4 $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       # Use curl fallback to avoid any toolchain action hiccups
-      - name: Install Foundry (curl)
-        run: |
+      - name: Install Foundry
+        run: curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup
           set -euxo pipefail
           curl -L https://foundry.paradigm.xyz | bash
           # make foundry binaries available NOW (this step) and LATER (next steps)
