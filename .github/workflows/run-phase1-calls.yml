@@ -1,4 +1,4 @@
-name: Run Phase 1 Calls (v3)
+name: Run Phase 1 Calls (v4)
 on:
   workflow_dispatch:
 
@@ -11,10 +11,31 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: stable
+      - name: Version marker
+        run: echo "CI v4 $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      # Use curl fallback to avoid any toolchain action hiccups
+      - name: Install Foundry (curl)
+        run: |
+          set -euxo pipefail
+          curl -L https://foundry.paradigm.xyz | bash
+          echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+          $HOME/.foundry/bin/foundryup
+          forge --version
+          cast --version
+
+      # If forge-std isn't checked in, this installs it in CI
+      - name: Ensure forge-std
+        run: |
+          set -euxo pipefail
+          if [ ! -d lib/forge-std ]; then
+            echo "forge-std not found in repo; installing…"
+            forge install --no-commit foundry-rs/forge-std
+          else
+            echo "forge-std present in repo"
+          fi
+          ls -la lib || true
+          test -f lib/forge-std/src/Script.sol
 
       - name: Build contracts
         run: forge build --sizes
@@ -22,7 +43,7 @@ jobs:
       - name: Run tests
         run: forge test -vvv
 
-      # Optional: only runs if the script file exists
+      # --- Optional: only if your script exists and you set secrets ---
       - name: Make scenario script executable
         if: ${{ hashFiles('scripts/run_phase1_calls.sh') != '' }}
         run: chmod +x scripts/run_phase1_calls.sh
