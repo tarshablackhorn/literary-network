@@ -1,56 +1,28 @@
-name: Run Phase 1 Calls
+name: Run Phase 1 Calls (v3)
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'  # every 6 hours (UTC)
 
 jobs:
   run-scenarios:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout (with submodules)
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Show repo layout (debug)
-        run: |
-          set -euxo pipefail
-          pwd
-          ls -la
-          test -f foundry.toml
-
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: stable
 
-      - name: Verify Foundry install
-        run: |
-          set -euxo pipefail
-          forge --version
-          cast --version
-
-      # If forge-std isn't checked in, this will fetch it
-      - name: Ensure forge-std (if not checked in)
-        run: |
-          set -euxo pipefail
-          if [ ! -d lib/forge-std ]; then
-            forge install --no-commit foundry-rs/forge-std
-          fi
-
       - name: Build contracts
-        run: |
-          set -euxo pipefail
-          forge build --sizes
+        run: forge build --sizes
 
       - name: Run tests
-        run: |
-          set -euxo pipefail
-          forge test -vvv
+        run: forge test -vvv
 
-      # ----- Optional scenario script -----
+      # Optional: only runs if the script file exists
       - name: Make scenario script executable
         if: ${{ hashFiles('scripts/run_phase1_calls.sh') != '' }}
         run: chmod +x scripts/run_phase1_calls.sh
@@ -63,8 +35,7 @@ jobs:
           CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
         run: |
           set -euo pipefail
-          # explicit secret checks (no secrets in if:)
-          if [ -z "${PRIVATE_KEY:-}" ]; then echo "Missing PRIVATE_KEY secret"; exit 1; fi
-          if [ -z "${RPC_URL:-}" ]; then echo "Missing RPC_URL secret"; exit 1; fi
-          if [ -z "${CONTRACT_ADDRESS:-}" ]; then echo "Missing CONTRACT_ADDRESS secret"; exit 1; fi
+          : "${PRIVATE_KEY:?Missing PRIVATE_KEY secret}"
+          : "${RPC_URL:?Missing RPC_URL secret}"
+          : "${CONTRACT_ADDRESS:?Missing CONTRACT_ADDRESS secret}"
           ./scripts/run_phase1_calls.sh
